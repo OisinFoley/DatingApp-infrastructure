@@ -25,6 +25,10 @@ No modules.
 | Name | Type |
 |------|------|
 | [azurerm_linux_virtual_machine.web_linuxvm](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine) | resource |
+| [azurerm_mysql_database.webappdb](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/mysql_database) | resource |
+| [azurerm_mysql_firewall_rule.mysql_fw_rule](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/mysql_firewall_rule) | resource |
+| [azurerm_mysql_server.mysql_server](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/mysql_server) | resource |
+| [azurerm_mysql_virtual_network_rule.mysql_virtual_network_rule](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/mysql_virtual_network_rule) | resource |
 | [azurerm_network_interface.web_linuxvm_nic](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) | resource |
 | [azurerm_network_interface_security_group_association.web_vmnic_nsg_associate](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface_security_group_association) | resource |
 | [azurerm_network_security_group.web_subnet_nsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_group) | resource |
@@ -45,11 +49,20 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_business_division"></a> [business\_division](#input\_business\_division) | Business Division in the organization this Infrastructure belongs | `string` | `"oisinprj"` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment Variable used as a prefix | `string` | `"dev"` | no |
+| <a name="input_mysql_db_password"></a> [mysql\_db\_password](#input\_mysql\_db\_password) | Azure MySQL Database Administrator Password | `string` | n/a | yes |
+| <a name="input_mysql_db_schema"></a> [mysql\_db\_schema](#input\_mysql\_db\_schema) | Azure MySQL Database Schema Name | `string` | n/a | yes |
+| <a name="input_mysql_db_username"></a> [mysql\_db\_username](#input\_mysql\_db\_username) | Azure MySQL Database Administrator Username | `string` | n/a | yes |
+| <a name="input_mysql_server_name"></a> [mysql\_server\_name](#input\_mysql\_server\_name) | Azure MySQL Database Server Name | `string` | `"mysql-server"` | no |
 | <a name="input_pip_sku"></a> [pip\_sku](#input\_pip\_sku) | public ip sku | `string` | `"Standard"` | no |
 | <a name="input_project_contact"></a> [project\_contact](#input\_project\_contact) | tag value to indicate who is responsible for project | `string` | `"oisinfoley@yahoo.co.uk"` | no |
 | <a name="input_region_abbreviation"></a> [region\_abbreviation](#input\_region\_abbreviation) | Region abbreviation to be used as suffix | `string` | `"eun"` | no |
 | <a name="input_resource_group_location"></a> [resource\_group\_location](#input\_resource\_group\_location) | Region in which Azure Resources to be created | `string` | `"northeurope"` | no |
 | <a name="input_vnet_address_space"></a> [vnet\_address\_space](#input\_vnet\_address\_space) | Virtual Network address\_space | `list(string)` | <pre>[<br>  "10.0.0.0/16"<br>]</pre> | no |
+| <a name="input_web_linuxvm_api_repo_url"></a> [web\_linuxvm\_api\_repo\_url](#input\_web\_linuxvm\_api\_repo\_url) | URL of git repo | `string` | `""` | no |
+| <a name="input_web_linuxvm_app_cloudinary_api_key"></a> [web\_linuxvm\_app\_cloudinary\_api\_key](#input\_web\_linuxvm\_app\_cloudinary\_api\_key) | API key for use when storing Cloudinary photo assets | `string` | `""` | no |
+| <a name="input_web_linuxvm_app_cloudinary_api_secret"></a> [web\_linuxvm\_app\_cloudinary\_api\_secret](#input\_web\_linuxvm\_app\_cloudinary\_api\_secret) | Secret for use when storing Cloudinary photo assets | `string` | `""` | no |
+| <a name="input_web_linuxvm_app_cloudinary_name"></a> [web\_linuxvm\_app\_cloudinary\_name](#input\_web\_linuxvm\_app\_cloudinary\_name) | Name of account used for storing Cloudinary photo assets | `string` | n/a | yes |
+| <a name="input_web_linuxvm_app_token"></a> [web\_linuxvm\_app\_token](#input\_web\_linuxvm\_app\_token) | Web token for dating app | `string` | n/a | yes |
 | <a name="input_web_linuxvm_osdisk_storage_type"></a> [web\_linuxvm\_osdisk\_storage\_type](#input\_web\_linuxvm\_osdisk\_storage\_type) | Storage Type of Underlying VM Disk | `string` | `"Standard_LRS"` | no |
 | <a name="input_web_linuxvm_sku"></a> [web\_linuxvm\_sku](#input\_web\_linuxvm\_sku) | Virtual Machine SKU Size | `string` | `"Standard_DS1_v2"` | no |
 | <a name="input_web_linuxvm_username"></a> [web\_linuxvm\_username](#input\_web\_linuxvm\_username) | Virtual Machine Username | `string` | `"oisinfoley"` | no |
