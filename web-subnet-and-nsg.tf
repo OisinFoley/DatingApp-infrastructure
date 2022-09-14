@@ -16,7 +16,8 @@ resource "azurerm_network_security_group" "web_subnet_nsg" {
 
 # Resource-3: Associate NSG and Subnet
 resource "azurerm_subnet_network_security_group_association" "web_subnet_nsg_associate" {
-  depends_on                = [azurerm_network_security_rule.web_nsg_rule_inbound] # Every NSG Rule Association will disassociate NSG from Subnet and Associate it, so we associate it only after NSG is completely created - Azure Provider Bug https://github.com/terraform-providers/terraform-provider-azurerm/issues/354
+  # Every NSG Rule Association will disassociate NSG from Subnet and Associate it, so we associate it only after NSG is completely created - Azure Provider Bug https://github.com/terraform-providers/terraform-provider-azurerm/issues/354
+  depends_on                = [azurerm_network_security_rule.web_nsg_rule_inbound]
   subnet_id                 = azurerm_subnet.websubnet.id
   network_security_group_id = azurerm_network_security_group.web_subnet_nsg.id
 }
@@ -25,12 +26,13 @@ resource "azurerm_subnet_network_security_group_association" "web_subnet_nsg_ass
 ## Locals Block for Security Rules
 locals {
   web_inbound_ports_map = {
-    "100" : "80", # If the key starts with a number, you must use the colon syntax ":" instead of "="
+    # If the key starts with a number, you must use the colon syntax ":" instead of "="
+    "100" : "80",
     "110" : "443",
     "120" : "22",
   }
 
-  web_outbound_ports_map = { # todo tidy
+  web_outbound_ports_map = {
     # If the key starts with a number, you must use the colon syntax ":" instead of "="
     "105" : "3389"
   }

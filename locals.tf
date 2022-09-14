@@ -25,4 +25,5 @@ locals {
   web_linuxvm_name      = "${local.resource_name_prefix}-${local.web_linuxvm_prefix}"
   web_linuxvm_nic_name  = "${local.resource_name_prefix}-${local.web_linuxvm_prefix}-nic"
   web_linuxvm_public_ip = "${local.resource_name_prefix}-${local.web_linuxvm_prefix}-publicip"
+  storage_account_name  = "${var.business_division}${var.environment}${var.region_abbreviation}str"
 }
