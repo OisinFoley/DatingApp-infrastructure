@@ -4,7 +4,7 @@ resource "azurerm_subnet" "websubnet" {
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes     = var.web_subnet_address
-  service_endpoints    = ["Microsoft.Sql"]
+  service_endpoints    = ["Microsoft.Sql", "Microsoft.KeyVault"]
 }
 
 # Resource-2: Create Network Security Group (NSG)

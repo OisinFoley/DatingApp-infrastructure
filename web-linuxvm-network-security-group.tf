@@ -5,6 +5,7 @@ resource "azurerm_network_security_group" "web_vmnic_nsg" {
   name                = "${azurerm_network_interface.web_linuxvm_nic.name}-nsg"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
+  tags                = local.common_tags
 }
 
 # Resource-2: Associate NSG and Linux VM NIC

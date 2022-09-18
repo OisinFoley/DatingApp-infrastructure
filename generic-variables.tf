@@ -31,3 +31,21 @@ variable "project_contact" {
   type        = string
   default     = "oisinfoley@yahoo.co.uk"
 }
+
+variable "tenant_id" {
+  description = "id for tenant/organisation"
+  type        = string
+  default     = ""
+}
+
+variable "deployer_object_id" {
+  description = "object id of person or service principal used when deploying infrastructure"
+  type        = string
+  default     = ""
+}
+
+variable "ip_whitelist" {
+  description = "IP addresses to accept traffic from"
+  type        = list(string)
+  default     = []
+}

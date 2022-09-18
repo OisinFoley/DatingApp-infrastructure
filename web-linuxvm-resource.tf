@@ -51,7 +51,8 @@ export token=${var.web_linuxvm_app_token}
 export cloud_name=${var.web_linuxvm_app_cloudinary_name}
 export api_key=${var.web_linuxvm_app_cloudinary_api_key}
 export api_secret=${var.web_linuxvm_app_cloudinary_api_secret}
-export db_connection_string="Server=${azurerm_mysql_server.mysql_server.fqdn}; Database=${var.mysql_db_schema}; Uid=${var.mysql_db_username}@${local.resource_name_prefix}-${var.mysql_server_name}; Pwd=${var.mysql_db_password};"
+export key_vault_name=${local.key_vault_name}
+export mysql_conn_string=${azurerm_key_vault_secret.mysql_conn_string.name}
 
 # update appsettings.json file in-place
 cp appsettings.example.json appsettings.json
@@ -60,7 +61,10 @@ cat <<< "$(jq --arg token "$token" '.AppSettings.Token = $token' appsettings.jso
 cat <<< "$(jq --arg cloud_name "$cloud_name" '.CloudinarySettings.CloudName = $cloud_name' appsettings.json)" > appsettings.json
 cat <<< "$(jq --arg api_key "$api_key" '.CloudinarySettings.ApiKey = $api_key' appsettings.json)" > appsettings.json
 cat <<< "$(jq --arg api_secret "$api_secret" '.CloudinarySettings.ApiSecret = $api_secret' appsettings.json)" > appsettings.json
-cat <<< "$(jq --arg db_connection_string "$db_connection_string" '.ConnectionStrings.DefaultConnection = $db_connection_string' appsettings.json)" > appsettings.json
+# cat <<< "$(jq --arg db_connection_string "$db_connection_string" '.ConnectionStrings.DefaultConnection = $db_connection_string' appsettings.json)" > appsettings.json
+
+cat <<< "$(jq --arg key_vault_name "$key_vault_name" '.KeyVaultName = $key_vault_name' appsettings.json)" > appsettings.json
+cat <<< "$(jq --arg mysql_conn_string "$mysql_conn_string" '.MySqlConnectionStringVaultKey = $mysql_conn_string' appsettings.json)" > appsettings.json
 
 # restore and build app, publish w/ sudo to allow write access to /var
 dotnet restore
@@ -115,5 +119,10 @@ resource "azurerm_linux_virtual_machine" "web_linuxvm" {
     sku       = "20_04-lts-gen2"
     version   = "latest"
   }
+
   custom_data = base64encode(local.webvm_custom_data)
+  identity {
+    type         = "UserAssigned"
+    identity_ids = [azurerm_user_assigned_identity.uai.id]
+  }
 }

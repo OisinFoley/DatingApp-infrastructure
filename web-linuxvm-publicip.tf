@@ -6,4 +6,5 @@ resource "azurerm_public_ip" "web_linuxvm_publicip" {
   allocation_method   = "Static"
   sku                 = var.pip_sku
   domain_name_label   = "app1-vm-${random_string.myrandom.id}"
+  tags                = local.common_tags
 }

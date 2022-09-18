@@ -3,6 +3,7 @@ resource "azurerm_cdn_profile" "bfa" {
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   sku                 = var.cdn_sku
+  tags                = local.common_tags
 }
 
 resource "azurerm_cdn_endpoint" "bfa" {

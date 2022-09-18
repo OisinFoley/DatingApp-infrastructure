@@ -3,6 +3,7 @@ resource "azurerm_mysql_server" "mysql_server" {
   name                = "${local.resource_name_prefix}-${var.mysql_server_name}"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
+  tags                = local.common_tags
 
   administrator_login          = var.mysql_db_username
   administrator_login_password = var.mysql_db_password
@@ -19,6 +20,10 @@ resource "azurerm_mysql_server" "mysql_server" {
   public_network_access_enabled     = true
   ssl_enforcement_enabled           = false
   ssl_minimal_tls_version_enforced  = "TLSEnforcementDisabled"
+}
+
+locals {
+  bfa_mysql_db_connection_string = "Server=${azurerm_mysql_server.mysql_server.fqdn}; Database=${var.mysql_db_schema}; Uid=${var.mysql_db_username}@${local.resource_name_prefix}-${var.mysql_server_name}; Pwd=${var.mysql_db_password};"
 }
 
 # Resource-2: Azure MySQL Database / Schema

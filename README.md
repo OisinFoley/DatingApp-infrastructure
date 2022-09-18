@@ -26,6 +26,10 @@ No modules.
 |------|------|
 | [azurerm_cdn_endpoint.bfa](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cdn_endpoint) | resource |
 | [azurerm_cdn_profile.bfa](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cdn_profile) | resource |
+| [azurerm_key_vault.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault) | resource |
+| [azurerm_key_vault_access_policy.deployer_identity](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_access_policy) | resource |
+| [azurerm_key_vault_access_policy.user_assigned_managed_identity](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_access_policy) | resource |
+| [azurerm_key_vault_secret.mysql_conn_string](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_linux_virtual_machine.web_linuxvm](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine) | resource |
 | [azurerm_mysql_database.webappdb](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/mysql_database) | resource |
 | [azurerm_mysql_firewall_rule.mysql_fw_rule](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/mysql_firewall_rule) | resource |
@@ -40,10 +44,12 @@ No modules.
 | [azurerm_network_security_rule.web_vmnic_nsg_rule_inbound](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule) | resource |
 | [azurerm_public_ip.web_linuxvm_publicip](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip) | resource |
 | [azurerm_resource_group.rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
+| [azurerm_role_assignment.vault_reader](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_storage_account.storage_account](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account) | resource |
 | [azurerm_storage_management_policy.web_container_to_cold_tier](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_management_policy) | resource |
 | [azurerm_subnet.websubnet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet) | resource |
 | [azurerm_subnet_network_security_group_association.web_subnet_nsg_associate](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet_network_security_group_association) | resource |
+| [azurerm_user_assigned_identity.uai](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
 | [azurerm_virtual_network.vnet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_network) | resource |
 | [random_string.myrandom](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
 
@@ -55,7 +61,9 @@ No modules.
 | <a name="input_business_division"></a> [business\_division](#input\_business\_division) | Business Division in the organization this Infrastructure belongs | `string` | `"oisinprj"` | no |
 | <a name="input_cdn_fallback_url"></a> [cdn\_fallback\_url](#input\_cdn\_fallback\_url) | Fallback URL for not found static site path | `string` | `"/index.html"` | no |
 | <a name="input_cdn_sku"></a> [cdn\_sku](#input\_cdn\_sku) | SKU for CDN service | `string` | `"Standard_Microsoft"` | no |
+| <a name="input_deployer_object_id"></a> [deployer\_object\_id](#input\_deployer\_object\_id) | object id of person or service principal used when deploying infrastructure | `string` | `""` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment Variable used as a prefix | `string` | `"dev"` | no |
+| <a name="input_ip_whitelist"></a> [ip\_whitelist](#input\_ip\_whitelist) | IP addresses to accept traffic from | `list(string)` | `[]` | no |
 | <a name="input_mysql_db_password"></a> [mysql\_db\_password](#input\_mysql\_db\_password) | Azure MySQL Database Administrator Password | `string` | n/a | yes |
 | <a name="input_mysql_db_schema"></a> [mysql\_db\_schema](#input\_mysql\_db\_schema) | Azure MySQL Database Schema Name | `string` | n/a | yes |
 | <a name="input_mysql_db_username"></a> [mysql\_db\_username](#input\_mysql\_db\_username) | Azure MySQL Database Administrator Username | `string` | n/a | yes |
@@ -64,9 +72,11 @@ No modules.
 | <a name="input_project_contact"></a> [project\_contact](#input\_project\_contact) | tag value to indicate who is responsible for project | `string` | `"oisinfoley@yahoo.co.uk"` | no |
 | <a name="input_region_abbreviation"></a> [region\_abbreviation](#input\_region\_abbreviation) | Region abbreviation to be used as suffix | `string` | `"eun"` | no |
 | <a name="input_resource_group_location"></a> [resource\_group\_location](#input\_resource\_group\_location) | Region in which Azure Resources to be created | `string` | `"northeurope"` | no |
+| <a name="input_settings"></a> [settings](#input\_settings) | n/a | `map(any)` | <pre>{<br>  "enable_rbac_authorization": false,<br>  "enabled_for_deployment": true,<br>  "enabled_for_disk_encryption": false,<br>  "enabled_for_template_deployment": false,<br>  "public_network_access_enabled": true,<br>  "purge_protection_enabled": false,<br>  "sku_name": "standard",<br>  "soft_delete_retention_days": 7<br>}</pre> | no |
 | <a name="input_storage_account_kind"></a> [storage\_account\_kind](#input\_storage\_account\_kind) | n/a | `string` | `"StorageV2"` | no |
 | <a name="input_storage_account_tier"></a> [storage\_account\_tier](#input\_storage\_account\_tier) | n/a | `string` | `"Standard"` | no |
 | <a name="input_storage_replication_type"></a> [storage\_replication\_type](#input\_storage\_replication\_type) | n/a | `string` | `"ZRS"` | no |
+| <a name="input_tenant_id"></a> [tenant\_id](#input\_tenant\_id) | id for tenant/organisation | `string` | `""` | no |
 | <a name="input_vnet_address_space"></a> [vnet\_address\_space](#input\_vnet\_address\_space) | Virtual Network address\_space | `list(string)` | <pre>[<br>  "10.0.0.0/16"<br>]</pre> | no |
 | <a name="input_web_linuxvm_api_repo_url"></a> [web\_linuxvm\_api\_repo\_url](#input\_web\_linuxvm\_api\_repo\_url) | URL of git repo | `string` | `""` | no |
 | <a name="input_web_linuxvm_app_cloudinary_api_key"></a> [web\_linuxvm\_app\_cloudinary\_api\_key](#input\_web\_linuxvm\_app\_cloudinary\_api\_key) | API key for use when storing Cloudinary photo assets | `string` | `""` | no |

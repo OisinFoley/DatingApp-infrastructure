@@ -7,6 +7,7 @@ resource "azurerm_storage_account" "storage_account" {
   account_replication_type        = var.storage_replication_type
   enable_https_traffic_only       = true
   allow_nested_items_to_be_public = false
+  tags                            = local.common_tags
 
   blob_properties {
     last_access_time_enabled = true
