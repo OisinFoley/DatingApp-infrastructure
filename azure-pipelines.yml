@@ -16,9 +16,9 @@ stages:
         continueOnError: false
         steps:
         - task: TerraformInstaller@0
-          displayName: tfinstall
+          displayName: tfinstall version 3.0
           inputs:
-            terraformVersion: '3.10.0'
+            terraformVersion: '3.0'
         - task: TerraformTaskV3@3
           displayName: validate
           inputs:
