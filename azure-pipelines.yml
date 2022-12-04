@@ -3,6 +3,8 @@ trigger:
     include:
       - master
 
+resources:
+  - repo: self
 
 pool:
   vmImage: ubuntu-latest
