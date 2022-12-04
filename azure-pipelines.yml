@@ -1,0 +1,55 @@
+trigger:
+- master
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+  - stage: tfvalidate
+    jobs:
+      - job: validate
+        continueOnError: false
+        steps:
+        - task: TerraformInstaller@0
+          displayName: tfinstall
+          inputs:
+            terraformVersion: 'latest'
+        - task: TerraformTaskV3@3
+          displayName: validate
+          inputs:
+            provider: 'azurerm'
+            command: 'validate'
+  - stage: tfdeploy
+    condition: succeeded('tfvalidate')
+    dependsOn: tfvalidate
+    jobs:
+      - job: apply
+        steps:
+          - task: TerraformInstaller@0
+            displayName: tfinstall
+            inputs:
+              terraformVersion: 'latest'
+          - task: TerraformTaskV3@3
+            displayName: tfinstall
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
+              # backendServiceArm: 'bobbing-for-apples-sp'
+              # backendAzureRmResourceGroupName: '$(bkstrgrg)'
+              # backendAzureRmStorageAccountName: '$(bkstrg)'
+              # backendAzureRmContainerName: '$(bkcontainer)'
+              # backendAzureRmKey: '$(bkstrgkey)'
+          - task: TerraformTaskV3@3
+            displayName: plan
+            inputs:
+              provider: 'azurerm'
+              command: 'plan'
+              environmentServiceNameAzureRM: 'bobbing-for-apples-sp'
+          - task: TerraformTaskV3@3
+            displayName: apply
+            inputs:
+              provider: 'azurerm'
+              command: 'apply'
+              environmentServiceNameAzureRM: 'bobbing-for-apples-sp'
+
+
