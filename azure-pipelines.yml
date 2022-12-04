@@ -16,9 +16,9 @@ stages:
         continueOnError: false
         steps:
         - task: TerraformInstaller@0
-          displayName: tfinstall version 3.0.0
+          displayName: tfinstall version 1.1.5
           inputs:
-            terraformVersion: '3.0.0'
+            terraformVersion: '1.1.5'
         - task: TerraformTaskV3@3
           displayName: validate
           inputs:
@@ -31,9 +31,9 @@ stages:
       - job: apply
         steps:
           - task: TerraformInstaller@0
-            displayName: tfinstall
+            displayName: tfinstall version 1.1.5
             inputs:
-              terraformVersion: 'latest'
+              terraformVersion: '1.1.5'
           - task: DownloadSecureFile@1
             displayName: download secure files
             inputs:
