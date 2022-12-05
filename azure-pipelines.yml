@@ -19,6 +19,33 @@ stages:
           displayName: tfinstall version 1.1.5
           inputs:
             terraformVersion: '1.1.5'
+        - task: DownloadSecureFile@1
+          displayName: download secure files
+          inputs:
+            secureFile: 'terraform-azure.pem.pub'
+            retryCount: '2'
+        - task: DownloadSecureFile@1
+          inputs:
+            secureFile: 'terraform.tfvars'
+            retryCount: '2'
+        - task: CmdLine@2
+          displayName: create ssh-keys dir
+          inputs:
+            script: 'mkdir ssh-keys'
+            workingDirectory: '$(System.DefaultWorkingDirectory)'
+            failOnStderr: true
+        - task: CopyFiles@2
+          displayName: 'move secure files to ssh-keys'
+          inputs:
+            SourceFolder: $(Agent.TempDirectory)
+            Contents: 'terraform-azure.pem.pub'
+            TargetFolder: $(System.DefaultWorkingDirectory)/ssh-keys
+        - task: CopyFiles@2
+          displayName: 'move terraform.tfvars to repo root'
+          inputs:
+            SourceFolder: $(Agent.TempDirectory)
+            Contents: 'terraform.tfvars'
+            TargetFolder: $(System.DefaultWorkingDirectory)
         - task: CmdLine@2
           inputs:
             script: "sed -i.bak 's,${path.module},$(System.DefaultWorkingDirectory),g' web-linuxvm-resource.tf"
@@ -56,33 +83,33 @@ stages:
             displayName: tfinstall version 1.1.5
             inputs:
               terraformVersion: '1.1.5'
-          - task: DownloadSecureFile@1
-            displayName: download secure files
-            inputs:
-              secureFile: 'terraform-azure.pem.pub'
-              retryCount: '2'
-          - task: DownloadSecureFile@1
-            inputs:
-              secureFile: 'terraform.tfvars'
-              retryCount: '2'
-          - task: CmdLine@2
-            displayName: create ssh-keys dir
-            inputs:
-              script: 'mkdir ssh-keys'
-              workingDirectory: '$(System.DefaultWorkingDirectory)'
-              failOnStderr: true
-          - task: CopyFiles@2
-            displayName: 'move secure files to ssh-keys'
-            inputs:
-              SourceFolder: $(Agent.TempDirectory)
-              Contents: 'terraform-azure.pem.pub'
-              TargetFolder: $(System.DefaultWorkingDirectory)/ssh-keys
-          - task: CopyFiles@2
-            displayName: 'move terraform.tfvars to repo root'
-            inputs:
-              SourceFolder: $(Agent.TempDirectory)
-              Contents: 'terraform.tfvars'
-              TargetFolder: $(System.DefaultWorkingDirectory)
+          # - task: DownloadSecureFile@1
+          #   displayName: download secure files
+          #   inputs:
+          #     secureFile: 'terraform-azure.pem.pub'
+          #     retryCount: '2'
+          # - task: DownloadSecureFile@1
+          #   inputs:
+          #     secureFile: 'terraform.tfvars'
+          #     retryCount: '2'
+          # - task: CmdLine@2
+          #   displayName: create ssh-keys dir
+          #   inputs:
+          #     script: 'mkdir ssh-keys'
+          #     workingDirectory: '$(System.DefaultWorkingDirectory)'
+          #     failOnStderr: true
+          # - task: CopyFiles@2
+          #   displayName: 'move secure files to ssh-keys'
+          #   inputs:
+          #     SourceFolder: $(Agent.TempDirectory)
+          #     Contents: 'terraform-azure.pem.pub'
+          #     TargetFolder: $(System.DefaultWorkingDirectory)/ssh-keys
+          # - task: CopyFiles@2
+          #   displayName: 'move terraform.tfvars to repo root'
+          #   inputs:
+          #     SourceFolder: $(Agent.TempDirectory)
+          #     Contents: 'terraform.tfvars'
+          #     TargetFolder: $(System.DefaultWorkingDirectory)
           - task: TerraformTaskV3@3
             displayName: init
             inputs:
