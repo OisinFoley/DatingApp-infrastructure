@@ -24,11 +24,11 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'init'
-              # backendServiceArm: 'bobbing-for-apples-sp'
-              # backendAzureRmResourceGroupName: '$(bkstrgrg)'
-              # backendAzureRmStorageAccountName: '$(bkstrg)'
-              # backendAzureRmContainerName: '$(bkcontainer)'
-              # backendAzureRmKey: '$(bkstrgkey)'
+            backendServiceArm: 'bobbing-for-apples-sp'
+            backendAzureRmResourceGroupName: '$(bkstrgrg)'
+            backendAzureRmStorageAccountName: '$(bkstrg)'
+            backendAzureRmContainerName: '$(bkcontainer)'
+            backendAzureRmKey: '$(bkstrgkey)'
         - task: TerraformTaskV3@3
           displayName: validate
           inputs:
@@ -76,11 +76,11 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'init'
-              # backendServiceArm: 'bobbing-for-apples-sp'
-              # backendAzureRmResourceGroupName: '$(bkstrgrg)'
-              # backendAzureRmStorageAccountName: '$(bkstrg)'
-              # backendAzureRmContainerName: '$(bkcontainer)'
-              # backendAzureRmKey: '$(bkstrgkey)'
+              backendServiceArm: 'bobbing-for-apples-sp'
+              backendAzureRmResourceGroupName: '$(bkstrgrg)'
+              backendAzureRmStorageAccountName: '$(bkstrg)'
+              backendAzureRmContainerName: '$(bkcontainer)'
+              backendAzureRmKey: '$(bkstrgkey)'
           - task: TerraformTaskV3@3
             displayName: plan
             inputs:
