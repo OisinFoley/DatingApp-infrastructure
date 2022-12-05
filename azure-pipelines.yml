@@ -1,7 +1,4 @@
-trigger:
-  branches:
-    include:
-      - master
+trigger: none
 
 resources:
   - repo: self
@@ -10,66 +7,9 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
-  - stage: tfvalidate
+  - stage: tfdestroy
     jobs:
-      - job: validate
-        continueOnError: false
-        steps:
-        - task: TerraformInstaller@0
-          displayName: tfinstall version 1.1.5
-          inputs:
-            terraformVersion: '1.1.5'
-        - task: DownloadSecureFile@1
-          displayName: download secure files
-          inputs:
-            secureFile: 'terraform-azure.pem.pub'
-            retryCount: '2'
-        - task: DownloadSecureFile@1
-          inputs:
-            secureFile: 'terraform.tfvars'
-            retryCount: '2'
-        - task: CmdLine@2
-          displayName: create ssh-keys dir
-          inputs:
-            script: 'mkdir ssh-keys'
-            workingDirectory: '$(System.DefaultWorkingDirectory)'
-            failOnStderr: true
-        - task: CopyFiles@2
-          displayName: 'move secure files to ssh-keys'
-          inputs:
-            SourceFolder: $(Agent.TempDirectory)
-            Contents: 'terraform-azure.pem.pub'
-            TargetFolder: $(System.DefaultWorkingDirectory)/ssh-keys
-        - task: CopyFiles@2
-          displayName: 'move terraform.tfvars to repo root'
-          inputs:
-            SourceFolder: $(Agent.TempDirectory)
-            Contents: 'terraform.tfvars'
-            TargetFolder: $(System.DefaultWorkingDirectory)
-        - task: CmdLine@2
-          inputs:
-            script: "sed -i.bak 's,${path.module},$(System.DefaultWorkingDirectory),g' web-linuxvm-resource.tf"
-            workingDirectory: '$(System.DefaultWorkingDirectory)'
-        - task: TerraformTaskV3@3
-          displayName: init
-          inputs:
-            provider: 'azurerm'
-            command: 'init'
-            backendServiceArm: 'bobbing-for-apples-sp'
-            backendAzureRmResourceGroupName: '$(bkstrgrg)'
-            backendAzureRmStorageAccountName: '$(bkstrg)'
-            backendAzureRmContainerName: '$(bkcontainer)'
-            backendAzureRmKey: '$(bkstrgkey)'
-        - task: TerraformTaskV3@3
-          displayName: validate
-          inputs:
-            provider: 'azurerm'
-            command: 'validate'
-  - stage: tfdeploy
-    condition: succeeded('tfvalidate')
-    dependsOn: tfvalidate
-    jobs:
-      - job: apply
+      - job: destroy
         steps:
           - task: TerraformInstaller@0
             displayName: tfinstall version 1.1.5
@@ -113,16 +53,8 @@ stages:
               backendAzureRmContainerName: '$(bkcontainer)'
               backendAzureRmKey: '$(bkstrgkey)'
           - task: TerraformTaskV3@3
-            displayName: plan
             inputs:
               provider: 'azurerm'
-              command: 'plan'
-              commandOptions: '-input=false -out=plan.tfplan'
-              environmentServiceNameAzureRM: 'bobbing-for-apples-sp'
-          - task: TerraformTaskV3@3
-            displayName: apply
-            inputs:
-              provider: 'azurerm'
-              command: 'apply'
-              commandOptions: 'plan.tfplan'
+              command: 'destroy'
+              commandOptions: '-auto-approve'
               environmentServiceNameAzureRM: 'bobbing-for-apples-sp'
