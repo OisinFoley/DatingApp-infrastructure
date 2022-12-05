@@ -21,7 +21,7 @@ stages:
             terraformVersion: '1.1.5'
         - task: CmdLine@2
           inputs:
-            script: "sed -i.bak 's,{path.module},$(System.DefaultWorkingDirectory),g' web-linuxvm-resource.tf"
+            script: "sed -i.bak 's,${path.module},$(System.DefaultWorkingDirectory),g' web-linuxvm-resource.tf"
             workingDirectory: '$(System.DefaultWorkingDirectory)'
         # - task: ReplaceInFilesTextByText@2
         #   inputs:
