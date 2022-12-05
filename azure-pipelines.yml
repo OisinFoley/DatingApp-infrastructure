@@ -125,7 +125,7 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'plan'
-              commandOptions: '-out=plan.tfplan'
+              commandOptions: '-input=false -out=plan.tfplan'
               environmentServiceNameAzureRM: 'bobbing-for-apples-sp'
           - task: TerraformTaskV3@3
             displayName: apply
