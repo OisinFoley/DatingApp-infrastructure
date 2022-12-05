@@ -19,13 +19,18 @@ stages:
           displayName: tfinstall version 1.1.5
           inputs:
             terraformVersion: '1.1.5'
-        - task: ReplaceInFilesTextByText@2
+        - task: CmdLine@2
           inputs:
-            parameterSearchDirectory: '$(Build.SourcesDirectory)'
-            parameterSearchText: '${path.module}'
-            parameterReplaceText: '$(System.DefaultWorkingDirectory)'
-            parameterTypeOfSearch: 'filesList'
-            parameterFilesList: 'web-linuxvm-resource.tf'
+            script: "sed -i.bak ''s/{path.module}/$(System.DefaultWorkingDirectory)/g'' web-linuxvm-resource.tf"
+            workingDirectory: '$(System.DefaultWorkingDirectory)'
+        # - task: ReplaceInFilesTextByText@2
+        #   inputs:
+        #     parameterSearchDirectory: '$(Build.SourcesDirectory)'
+        #     parameterSearchText: '${path.module}'
+        #     parameterReplaceText: '$(System.DefaultWorkingDirectory)'
+        #     parameterTypeOfSearch: 'filesList'
+        #     parameterFilesList: 'web-linuxvm-resource.tf'
+
         - task: TerraformTaskV3@3
           displayName: init
           inputs:
