@@ -54,7 +54,7 @@ stages:
           inputs:
             script: |
               export pipeline_ip_addr=$(curl ipinfo.io/ip)
-              sed \"s,var.ip_whitelist,[\"$pipeline_ip_addr\"],g\" key-vault.tf
+              sed "s,var.ip_whitelist,[\"$pipeline_ip_addr\"],g" key-vault.tf
               cat key-vault.tf
             workingDirectory: '$(System.DefaultWorkingDirectory)'
         # - task: TerraformTaskV3@3
