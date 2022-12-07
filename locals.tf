@@ -27,6 +27,6 @@ locals {
   web_linuxvm_nic_name          = "${local.resource_name_prefix}-${local.web_linuxvm_prefix}-nic"
   web_linuxvm_public_ip         = "${local.resource_name_prefix}-${local.web_linuxvm_prefix}-publicip"
   managed_identity_name         = "${local.resource_name_prefix}-user-assigned-mid"
-  key_vault_name                = "${local.resource_name_prefix_dashless}kv"
-  storage_account_name          = "${local.resource_name_prefix_dashless}str"
+  key_vault_name                = "${local.resource_name_prefix_dashless}kvzzz"
+  storage_account_name          = "${local.resource_name_prefix_dashless}strzzz"
 }
